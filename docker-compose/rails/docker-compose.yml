@@ -1,0 +1,25 @@
+version: '3'
+services:
+    django:
+        image: rails
+        env_file: default.env
+        hostname: "${HOSTNAME}"
+        container_name: "${PROJECT_NAME}"
+        ports:
+            - 3000:3000
+        volumes:
+            - "./src:/usr/src"
+        working_dir: /usr/src/
+        command: apt-get update
+        command: apt-get update && apt-get install -y --no-install-recommends postgresql-client && rm -rf /var/lib/apt/lists/*
+        command: apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
+        command: bundle install
+        command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    db:
+      image: postgres:latest
+      environment:
+        POSTGRES_DB: be_free_db
+        POSTGRES_PASSWORD: 4lb3r272
+        POSTGRES_USER: jaja-laja
+      ports:
+        - 4000:4000
